@@ -3,16 +3,37 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br />" + data[i].summary + "<br />" + data[i].image + "</p>");
+    $("#articles").append("<a href=" + data[i].link + ">" + "<h4 data-id=" + data[i]._id + ">" + data[i].title + "</h4>" + "</a>" + "<br />" + "<p>" + data[i].summary + "</p>" + "<br />" + "<img src=" + data[i].image + ">" + "<hr>");
   }
 });
-//whenever someone clicks on scrape
-// $(document).on("click", "#scrape", function () {
-//   $.ajax({
-//     method: "GET",
-//     url: "/articles"
-//   });
-// });
+//this scrape is not working yet
+$("#scrape").on("click", function (event) {
+
+  // $.ajax({
+  //   method: "GET",
+  //   url: "/all"
+  // })
+  // .then(function (data) {
+  //   console.log(data);
+
+    $.ajax({
+      method: "GET",
+      url: "/scrape"
+    })
+    .then(function (data) {
+      console.log(data);
+      // $.ajax({
+      //   method: "GET",
+      //   url: "/all"
+      // })
+      // .then(function (data) {
+      //   console.log(data);
+      // })
+    })
+    location.reload();
+  });
+
+
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
