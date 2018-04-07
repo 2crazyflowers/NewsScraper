@@ -7,12 +7,12 @@ $.getJSON("/articles", function(data) {
   }
 });
 //whenever someone clicks on scrape
-$(document).on("click", "#scrape", function () {
-  $.ajax({
-    method: "GET",
-    url: "/articles"
-  })
-}
+// $(document).on("click", "#scrape", function () {
+//   $.ajax({
+//     method: "GET",
+//     url: "/articles"
+//   });
+// });
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {

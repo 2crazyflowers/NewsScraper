@@ -1,0 +1,32 @@
+
+<nav class="navbar navbar-light bg-info">
+  <span class="navbar-brand mb-0 h1">Mongoose Scraper</span>
+  <a class="navbar-brand" href="#">Home</a>
+  <a class="navbar-brand" href="#">Saved Articles</a>
+  <a class="btn btn-outline-dark" href="#" type="button">Scrape New Articles!</a>
+</nav>
+<div class="background-image">
+  <div class="title text-center">
+    <h1 class="text-info">Mongo Scraper</h1>
+    <h3 class="text-info">New York Times Edition</h3>
+  </div>
+</div>
+
+{{!-- each saved headline and note --}}
+<ul>
+  {{#each cats}}
+    {{#unless sleepy}}
+      {{> cats/cat-block sleep=true}}
+    {{/unless}}
+  {{/each}}
+</ul>
+
+<h2>Cats that are sleepy!</h2>
+
+<ul>
+  {{#each cats}}
+    {{#if sleepy}}
+      {{> cats/cat-block sleep=false}} 
+    {{/if}} 
+  {{/each}}
+</ul>
