@@ -22,7 +22,12 @@ var app = express();
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 // Use body-parser for handling form submissions
-app.use(bodyParser.urlencoded({ extended: true }));
+//changed to false
+app.use(bodyParser.urlencoded({ extended: false }));
+
+//Parse application/json
+app.use(bodyParser.json());
+
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
@@ -30,14 +35,37 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/startribunePopulater");
+//if deployed
+// mongoose.connect(, {
+//   useMongoClient: true
+// });
 
-// Routes
+
+//Set Handlebars
+var exphbs = require("express-handlebars");
+//sets main.handlebars as the default layout and our view engine as handlebar
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars")
+
+var handlebars = require("handlebars");
+handlebars.registerHelper("json", context => JSON.stringify(context));
+
+//I am getting an error at the require line below, but I think it has more to do with the handlebars here
+handlebars.registerHelper("debug", function (optionalValue) {
+  console.log("Current Context");
+  console.log("====================");
+  console.log(this);
+  if (optionalValue) {
+    console.log("Value");
+    console.log("====================");
+    console.log(optionalValue);
+  }
+});
 
 //routes
 require("./controllers/fetch.js")(app);
 require("./controllers/headline.js")(app);
 //require("./controllers/note.js")(app);
-
 
 // Start the server
 app.listen(PORT, function() {

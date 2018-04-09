@@ -15,18 +15,50 @@ var mongoose = require("mongoose");
 
 module.exports = function (app) {
 
-  // Route for getting all Articles from the db
+  // Route for getting all unsaved articles from the db
+  //this is for the root and uses index.handlebars
+  app.get("/", function (req, res) {
+    // Grab every document in the Articles collection
+    db.Article.find({saved:false}, function (err, result) {
+      if (err) {
+        console.log("Error in finding unsaved articles: " + err);
+      }
+      else {
+        res.render("index", {
+          articles: result
+        });
+      }
+      });
+  });
+
+  //route for getting all the saved articles
+  //this is for the /saved path and uses saved.handlebars
+  app.get("/saved", function (req, res) {
+    db.Article.find({saved: true}, function(err, result) {
+      if (err) {
+        console.log("Error in finding saved articles: " + err)
+      }
+      else {
+        res.render("saved", {
+          articles: result
+        });
+      }
+    });
+  });
+
+  // Route for getting all articles from the db
   app.get("/articles", function (req, res) {
     // Grab every document in the Articles collection
-    db.Article.find({})
-      .then(function (dbArticle) {
-        // If we were able to successfully find Articles, send them back to the client
-        res.json(dbArticle);
-      })
-      .catch(function (err) {
-        // If an error occurred, send it to the client
-        res.json(err);
-      });
+    db.Article.find({ saved: false }, function (err, result) {
+      if (err) {
+        console.log("Error in finding all articles: " + err);
+      }
+      else {
+        res.render("index", {
+          articles: result
+        });
+      }
+    });
   });
 
 }

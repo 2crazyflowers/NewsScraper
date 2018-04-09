@@ -48,4 +48,34 @@ module.exports = function (app) {
         res.json(err);
       });
   });
+  
+  //Route for getting/finding all notes in the database associated with a particular headline/article.
+  app.get("/notes/:id", function (req, res) {
+    if (req.params.id) {
+      db.Note.find({
+        "article": req.params.id
+      })
+        .exec(function (error, doc) {
+          if (error) {
+            console.log(error)
+          } else {
+            res.send(doc);
+          }
+        });
+    }
+  });
+
+  //Delete a note
+  app.delete("/notes/:id", function (req, res) {
+    // Remember: when searching by an id, the id needs to be passed in
+    db.Note.deleteOne({ _id: req.params.id },
+      function (err, data) {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          res.json(data);
+        }
+      });
+  });
 }

@@ -1,32 +1,65 @@
+{{!-- if article has been saved post it --}}
+{{#if articles.saved}} 
+  {{#each articles.saved}}
+    <div class="card">
+      <h5 class="card-header articleBody">{{this.title}}</h5>
+      <div class="card-body">
+        <div class="card-img-left flex-auto d-none d-md-block" alt="Card image">
+          <img src="{{this.image}}">
+        </div>
+        <p class="card-text">{{this.summary}}</p>
+        <div class="row">
+          <a href="{{this.link}}" type="button" class="btn btn-secondary">Read Article</a>
+          <button type="button" class="btn btn-info" id="save-article">Save Article</a>
+          {{!-- <!-- Button trigger modal --> --}}
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Make Comment</button>
+        </div>
+        
+            </div>
+          </div>
+        </div>
+        {{!-- comments go here --}}
+        <div class="row">
+          <div class="col s2"></div>
+          <div class="col s8">
+            <h5>Comments:</h5>
+            {{#if articles.note}} {{#each articles.note}}
+            <div class="card">
+              <p>{{body}}</p>
+            </div>
+            {{/each}} {{else}}
+            <p>No comments have been made yet. Feel free to leave one.</p>
+            {{/if}}
+          </div>
+        </div>
+  {{/each}}
+{{else}}
+  <p>No articles have been saved.</p>
 
-<nav class="navbar navbar-light bg-info">
-  <span class="navbar-brand mb-0 h1">Mongoose Scraper</span>
-  <a class="navbar-brand" href="#">Home</a>
-  <a class="navbar-brand" href="#">Saved Articles</a>
-  <a class="btn btn-outline-dark" href="#" type="button">Scrape New Articles!</a>
-</nav>
-<div class="background-image">
-  <div class="title text-center">
-    <h1 class="text-info">Mongo Scraper</h1>
-    <h3 class="text-info">New York Times Edition</h3>
+{{/if}}
+<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Make a Comment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form action="/comment/{{articles._id}}" method="POST"></form>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Type your Comment Here</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save Comment</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      </form>
+    </div>
   </div>
 </div>
-
-{{!-- each saved headline and note --}}
-<ul>
-  {{#each cats}}
-    {{#unless sleepy}}
-      {{> cats/cat-block sleep=true}}
-    {{/unless}}
-  {{/each}}
-</ul>
-
-<h2>Cats that are sleepy!</h2>
-
-<ul>
-  {{#each cats}}
-    {{#if sleepy}}
-      {{> cats/cat-block sleep=false}} 
-    {{/if}} 
-  {{/each}}
-</ul>

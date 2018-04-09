@@ -1,6 +1,6 @@
 body {
   background-image: url(../img/dust_scratches.png);
-  background-size: cover;
+  background-repeat: repeat;
 }
 
 .background-image {
