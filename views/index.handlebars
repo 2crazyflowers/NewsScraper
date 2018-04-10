@@ -23,20 +23,20 @@
           {{#if articles.note}} 
             {{#each articles.note}}
               <p>{{body}}</p>
-              </ul>
             {{/each}}
           {{else}}
           <p class="mt-3">No comments have been made yet. Feel free to leave one.</p>
-          </ul>
           {{/if}}
         </div>
       </div>
       <br>
       <div class="row">
-        <a href="{{this.link}}" type="button" class="btn btn-secondary ml-3 mr-2">Read Article</a>
-        <button type="button" class="btn btn-info mr-2" id="save-article">Save Article</button>
+        <a href="{{this.link}}" type="button" class="btn btn-secondary ml-3 mr-2" target="_blank">Read Article</a>
+        <button type="button" class="btn btn-info mr-2" id="save-article" data-id="{{this._id}}">Save Article</button>
         {{!-- this should be a model --}}
-        <button type="button" class="btn btn-secondary mr-2" data-toggle="modal" data-target="#exampleModal">Make Comment</button>
+        <button type="button" class="btn btn-secondary mr-2" id="make-comment" data-id="{{this._id}}">Make Comment</button>
+        {{!-- modal not working --}}
+        {{!-- <button type="button" class="btn btn-secondary mr-2" data-toggle="modal" data-target="#exampleModal">Make Comment</button> --}}
       </div>
     </div>
   </div>

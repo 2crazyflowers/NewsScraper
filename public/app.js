@@ -1,11 +1,3 @@
-// Grab the articles as a json
-$.getJSON("/articles", function(data) {
-  // For each one
-  for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").append("<a href=" + data[i].link + ">" + "<h4 data-id=" + data[i]._id + ">" + data[i].title + "</h4>" + "</a>" + "<br />" + "<p>" + data[i].summary + "</p>" + "<br />" + "<img src=" + data[i].image + ">" + "<hr>");
-  }
-});
 //this scrape is not working yet
 $("#scrape-articles").on("click", function(event) {
 
@@ -19,15 +11,45 @@ $("#scrape-articles").on("click", function(event) {
     location.reload();
   });
 
+// Whenever someone clicks a make a comment button
+$("#make-comment").on("click", function() {
+  // Empty the notes from the note section
+  console.log("trying to get info on title");
+  $("#notes").empty();
+  // Save the id from the p tag
+  var thisId = $(this).attr("data-id");
 
+  // Now make an ajax call for the Article
+  $.ajax({
+    method: "GET",
+    url: "/articles/" + thisId
+  })
+    // With that done, add the note information to the page
+    .then(function (data) {
+      console.log(data);
+      // The title of the article
+      $("#notes").append("<h2>" + data.title + "</h2>");
+      // A textarea to add a new note body
+      $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
+      // A button to submit a new note, with the id of the article saved to it
+      $("#notes").append("<button data-id='" + data._id + "' id='save-comment'>Save Note</button>");
+
+      // If there's a note in the article
+      if (data.note) {
+        // Place the body of the note in the body textarea
+        $("#bodyinput").val(data.note.body);
+      }
+    });
+});
 // When you click the save-comment button from modal
 $("#save-comment").on("click", function(event) {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
   console.log("comment saved");
   // Run a PUT request to update saved value of article from false to true
+  // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
-    method: "PUT",
+    method: "POST",
     url: "/articles/" + thisId,
     data: {
       // Value taken from note textarea
@@ -35,32 +57,34 @@ $("#save-comment").on("click", function(event) {
     }
   })
     // With that done
-    .then(function(data) {
+    .then(function (data) {
       // Log the response
       console.log(data);
       // Empty the notes section
-      $("#comment-input").empty();
+      $("#notes").empty();
     });
+    
+  
 });
+
 
 $("#save-article").on("click", function (event) {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
   console.log("article saved");
-  // Run a PUT request to update saved value of article from false to true
+  // Run a POST request to update saved value of article from false to true
   $.ajax({
-    method: "PUT",
+    method: "POST",
     url: "/articles/" + thisId,
     data: {
-      // Value taken from note textarea
-      body: $("#comment").val()
+      // update default value set at false to true
+      saved: true
     }
   })
     // With that done
     .then(function (data) {
       // Log the response
       console.log(data);
-      // Empty the notes section
-      $("#comment").empty();
+      location.reload();
     });
 });

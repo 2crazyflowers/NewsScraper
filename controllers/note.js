@@ -13,6 +13,8 @@ var app = express();
 var mongoose = require("mongoose");
 
 module.exports = function (app) {
+
+  //this route is broken++++++++++++++++++++++++
   // Route for grabbing a specific Article by id, populate it with it's note
   app.get("/articles/:id", function (req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
@@ -29,7 +31,7 @@ module.exports = function (app) {
       });
   });
 
-  // Route for saving/updating an Article's associated Note
+  // Route for making/saving/updating an Article's associated Note
   app.post("/articles/:id", function (req, res) {
     // Create a new note and pass the req.body to the entry
     db.Note.create(req.body)
@@ -49,6 +51,35 @@ module.exports = function (app) {
       });
   });
   
+
+  //route for creating a new comment
+  app.post("/notes", function (req, res) {
+    // Find all Notes
+    db.Note.find({})
+      .then(function (dbNote) {
+        // If all Notes are successfully found, send them back to the client
+        res.json(dbNote);
+      })
+      .catch(function (err) {
+        // If an error occurs, send the error back to the client
+        res.json(err);
+      });
+  });
+
+  // Route for retrieving all Notes from the db
+  app.get("/notes", function (req, res) {
+    // Find all Notes
+    db.Note.find({})
+      .then(function (dbNote) {
+        // If all Notes are successfully found, send them back to the client
+        res.json(dbNote);
+      })
+      .catch(function (err) {
+        // If an error occurs, send the error back to the client
+        res.json(err);
+      });
+  });
+
   //Route for getting/finding all notes in the database associated with a particular headline/article.
   app.get("/notes/:id", function (req, res) {
     if (req.params.id) {
