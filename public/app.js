@@ -74,12 +74,12 @@ $("#save-article").on("click", function (event) {
   console.log("article saved");
   // Run a POST request to update saved value of article from false to true
   $.ajax({
-    method: "POST",
-    url: "/articles/" + thisId,
-    data: {
-      // update default value set at false to true
-      saved: true
-    }
+    method: "PUT",
+    url: "/savedarticles/" + thisId,
+    // data: {
+    //   // update default value set at false to true
+    //   saved: true
+    // }
   })
     // With that done
     .then(function (data) {
@@ -87,4 +87,8 @@ $("#save-article").on("click", function (event) {
       console.log(data);
       location.reload();
     });
+});
+
+$('#saved').on("click", function (event) {
+  location.href=('/saved');
 });

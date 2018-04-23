@@ -19,7 +19,7 @@ module.exports = function (app) {
   //this is for the root and uses index.handlebars
   app.get("/", function (req, res) {
     // Grab every document in the Articles collection
-    db.Article.find({saved:false}, function (err, result) {
+    db.Article.find({ saved : false }, function (err, result) {
       if (err) {
         console.log("Error in finding unsaved articles: " + err);
       }
@@ -31,8 +31,33 @@ module.exports = function (app) {
       });
   });
 
-  //+++++++++++++++this route is not working+++++
-  //i know this as one of the articles is true and it is not being posted in this route
+  //Display saved.handlebars
+  app.get("/saved", function (req, res) {
+    db.Article.find({ saved : true }, function (err, saved) {
+      //log errors
+      if (err) {
+        console.log("Error in finding saved articles: " + err);
+      } else {
+        res.render("saved", {
+          articles: saved
+        });
+      }
+    });
+  });
+
+  //this grabs id of article being saved and updates the saved from false to true
+  app.put("/savedarticles/:id", function (req, res) {
+    
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true })
+    .then(function (err, result) {
+      res.json(result);
+      //res.json(data);
+    })
+    .catch(function (err) {
+      res.json(err);
+      console.log("Error in finding saved articles: " + err);
+    });
+  });
   
   //route for getting all the saved articles
   //this is for the /saved path and uses saved.handlebars
@@ -53,21 +78,24 @@ module.exports = function (app) {
       }
     });
   });
-//above route not working+++++++++++++++++++++++++++
 
-  // Route for getting all articles from the db
-  app.get("/articles", function (req, res) {
-    // Grab every document in the Articles collection
-    db.Article.find({ saved: false }, function (err, result) {
-      if (err) {
-        console.log("Error in finding all articles: " + err);
-      }
-      else {
-        res.render("index", {
-          articles: result
-        });
-      }
-    });
+  // // Route for getting all articles from the db
+  // app.get("/all", function (req, res) {
+  //   // Grab every document in the Articles collection
+  //   db.Article.find({ saved: false }, function (err, result) {
+  //     if (err) {
+  //       console.log("Error in finding all articles: " + err);
+  //     }
+  //     else {
+  //       res.render("index", {
+  //         articles: result
+  //       });
+  //     }
+  //   });
+  // });
+
+  app.post('/', function (req, res) {
+    res.json(data); 
   });
 
 }

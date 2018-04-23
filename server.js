@@ -14,6 +14,9 @@ var db = require("./models");
 
 var PORT = 3000;
 
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/startribunePopulater";
+
 // Initialize Express
 var app = express();
 
@@ -50,22 +53,10 @@ app.set("view engine", "handlebars")
 var handlebars = require("handlebars");
 handlebars.registerHelper("json", context => JSON.stringify(context));
 
-//I am getting an error at the require line below, but I think it has more to do with the handlebars here
-handlebars.registerHelper("debug", function (optionalValue) {
-  console.log("Current Context");
-  console.log("====================");
-  console.log(this);
-  if (optionalValue) {
-    console.log("Value");
-    console.log("====================");
-    console.log(optionalValue);
-  }
-});
-
 //routes
 require("./controllers/fetch.js")(app);
 require("./controllers/headline.js")(app);
-//require("./controllers/note.js")(app);
+require("./controllers/note.js")(app);
 
 // Start the server
 app.listen(PORT, function() {
