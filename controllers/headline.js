@@ -49,9 +49,10 @@ module.exports = function (app) {
   app.put("/savedarticles/:id", function (req, res) {
     
     db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true })
-    .then(function (err, result) {
+    .then(function (result) {
+      //console.log("this savedarticle is working");
       res.json(result);
-      //res.json(data);
+      
     })
     .catch(function (err) {
       res.json(err);

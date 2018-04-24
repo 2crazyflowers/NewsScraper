@@ -68,25 +68,24 @@ $("#save-comment").on("click", function(event) {
 });
 
 
-$("#save-article").on("click", function (event) {
+$("body").on("click", "#save-article", function (event) {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
-  console.log("article saved");
-  // Run a POST request to update saved value of article from false to true
+  console.log("article saved with this id: " + thisId);
+  // Run a PUT request to update saved value of article from false to true
   $.ajax({
     method: "PUT",
     url: "/savedarticles/" + thisId,
-    // data: {
-    //   // update default value set at false to true
-    //   saved: true
-    // }
   })
-    // With that done
-    .then(function (data) {
-      // Log the response
-      console.log(data);
-      location.reload();
-    });
+  // With that done
+  .then(function (data) {
+    // Log the response
+    console.log("suzy lives here");
+    location.reload();
+  })
+  .catch(function (err) {
+    console.log("Error in article app.js not working: " + err);
+  });
 });
 
 $('#saved').on("click", function (event) {
