@@ -37,11 +37,10 @@ app.use(express.static("public"));
 // By default mongoose uses callbacks for async queries, we're setting it to use promises (.then syntax) instead
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/startribunePopulater");
-//if deployed
-// mongoose.connect(, {
-//   useMongoClient: true
-// });
+//mongoose.connect("mongodb://localhost/startribunePopulater");
+mongoose.connect(MONGODB_URI, {
+  useMongoClient: true
+});
 
 
 //Set Handlebars
