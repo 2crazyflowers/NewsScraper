@@ -31,20 +31,6 @@ module.exports = function (app) {
       });
   });
 
-  //Display saved.handlebars
-  app.get("/saved", function (req, res) {
-    db.Article.find({ saved : true }, function (err, saved) {
-      //log errors
-      if (err) {
-        console.log("Error in finding saved articles: " + err);
-      } else {
-        res.render("saved", {
-          articles: saved
-        });
-      }
-    });
-  });
-
   //this grabs id of article being saved and updates the saved from false to true
   app.put("/savedarticles/:id", function (req, res) {
     

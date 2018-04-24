@@ -14,10 +14,10 @@ $("#scrape-articles").on("click", function(event) {
   });
 
 // Whenever someone clicks a make a comment button
-$("#make-comment").on("click", function() {
+$("body").on("click", "#make-comment", function() {
   // Empty the notes from the note section
   console.log("trying to get info on title");
-  $("#notes").empty();
+  //$("#notes").empty();
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
 
@@ -28,6 +28,7 @@ $("#make-comment").on("click", function() {
   })
     // With that done, add the note information to the page
     .then(function (data) {
+      $('#comment-modal').modal('show');
       console.log(data);
       // The title of the article
       $("#notes").append("<h2>" + data.title + "</h2>");
@@ -41,11 +42,15 @@ $("#make-comment").on("click", function() {
         // Place the body of the note in the body textarea
         $("#bodyinput").val(data.note.body);
       }
+    }).catch(function (err) {
+      console.log("Error in make comment in app.js not working: " + err);
     });
 });
+
 // When you click the save-comment button from modal
-$("#save-comment").on("click", function(event) {
+$("body").on("click", "#save-comment", function(event) {
   // Grab the id associated with the article from the submit button
+  $('#comment-modal').modal('hide');
   var thisId = $(this).attr("data-id");
   console.log("comment saved");
   // Run a PUT request to update saved value of article from false to true
@@ -55,7 +60,7 @@ $("#save-comment").on("click", function(event) {
     url: "/articles/" + thisId,
     data: {
       // Value taken from note textarea
-      body: $("#comment-input").val()
+      body: $("#comment-input").trim().val()
     }
   })
     // With that done
@@ -63,7 +68,10 @@ $("#save-comment").on("click", function(event) {
       // Log the response
       console.log(data);
       // Empty the notes section
-      $("#notes").empty();
+      $("#comment-input").empty();
+    })
+    .catch(function (err) {
+      console.log("Error in saving comment in app.js not working: " + err);
     });
     
   
