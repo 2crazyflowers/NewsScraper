@@ -1,4 +1,5 @@
 
+//scrape the articles
 $("#scrape-articles").on("click", function(event) {
 
     $.ajax({
@@ -7,13 +8,12 @@ $("#scrape-articles").on("click", function(event) {
     })
     .then(function (data) {
       console.log(data);
-      //location.reload(); 
       location.href = ('/');
     })
     
   });
 
-// Whenever someone clicks a make a comment button
+// Whenever someone clicks a "make a comment" button
 $("body").on("click", "#make-comment", function() {
   // Empty the notes from the note section
   console.log("trying to get info on title");
@@ -77,7 +77,7 @@ $("body").on("click", "#save-comment", function(event) {
   
 });
 
-
+//whenever someone clicks on save article button
 $("body").on("click", "#save-article", function (event) {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
@@ -98,7 +98,7 @@ $("body").on("click", "#save-article", function (event) {
   });
 });
 
-
+//when ever someone clicks to remove save button or unsave the article
 $("body").on("click", "#unsave-article", function (event) {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
@@ -111,7 +111,6 @@ $("body").on("click", "#unsave-article", function (event) {
     // With that done
     .then(function (data) {
       // Log the response
-      console.log("suzy lives here");
       location.reload();
     })
     .catch(function (err) {
@@ -119,6 +118,7 @@ $("body").on("click", "#unsave-article", function (event) {
     });
 });
 
+//whenver someone clicks on the delete article button
 $("body").on("click", "#delete-article", function (event) {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
@@ -138,6 +138,7 @@ $("body").on("click", "#delete-article", function (event) {
     });
 });
 
+//when someone clicks to view saved articles
 $('#saved').on("click", function (event) {
   location.href=('/saved');
 });

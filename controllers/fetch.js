@@ -12,7 +12,7 @@ var app = express();
 //fetch all had app.js file contents here
 // Grab the headlines as a json
 module.exports = function (app) {
-  // A GET route for scraping the startrib website
+  // A GET route for scraping the star tribune website
   app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with request
     axios.get("http://www.startribune.com/local/").then(function (response) {
