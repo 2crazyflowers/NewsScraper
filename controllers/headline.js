@@ -50,7 +50,7 @@ module.exports = function (app) {
     
     db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true })
     .then(function (result) {
-      //console.log("this savedarticle is working");
+      console.log("this savedarticle is working");
       res.json(result);
       
     })
@@ -58,6 +58,21 @@ module.exports = function (app) {
       res.json(err);
       console.log("Error in finding saved articles: " + err);
     });
+  });
+
+  //this grabs id of article being unsaved and updates the saved from true to false
+  app.put("/unsavedarticles/:id", function (req, res) {
+
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: false })
+      .then(function (result) {
+        console.log("this unsaved article is working");
+        res.json(result);
+
+      })
+      .catch(function (err) {
+        res.json(err);
+        console.log("Error in finding saved articles: " + err);
+      });
   });
   
   //route for getting all the saved articles

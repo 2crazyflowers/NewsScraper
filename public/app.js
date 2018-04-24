@@ -80,12 +80,33 @@ $("body").on("click", "#save-article", function (event) {
   // With that done
   .then(function (data) {
     // Log the response
-    console.log("suzy lives here");
+    //console.log("suzy lives here");
     location.reload();
   })
   .catch(function (err) {
     console.log("Error in article app.js not working: " + err);
   });
+});
+
+
+$("body").on("click", "#unsave-article", function (event) {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+  console.log("article saved with this id: " + thisId);
+  // Run a PUT request to update saved value of article from false to true
+  $.ajax({
+    method: "PUT",
+    url: "/unsavedarticles/" + thisId,
+  })
+    // With that done
+    .then(function (data) {
+      // Log the response
+      console.log("suzy lives here");
+      location.reload();
+    })
+    .catch(function (err) {
+      console.log("Error in unsaving article app.js not working: " + err);
+    });
 });
 
 $('#saved').on("click", function (event) {
