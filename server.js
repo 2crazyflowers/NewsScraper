@@ -38,9 +38,7 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 //mongoose.connect("mongodb://localhost/startribunePopulater");
-mongoose.connect(MONGODB_URI, {
-  useMongoClient: true
-});
+mongoose.connect(MONGODB_URI);
 
 
 //Set Handlebars
