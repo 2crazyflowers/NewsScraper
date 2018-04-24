@@ -110,6 +110,22 @@ module.exports = function (app) {
   //   });
   // });
 
+  //this grabs id of article and deletes it from the database
+  app.delete("/deletearticles/:id", function (req, res) {
+
+    db.Article.findOneAndRemove({ _id: req.params.id })
+      .then(function (result) {
+        console.log("this article has been deleted");
+        res.json(result);
+
+      })
+      .catch(function (err) {
+        res.json(err);
+        console.log("Error in finding saved articles: " + err);
+      });
+  });
+
+
   app.post('/', function (req, res) {
     res.json(data); 
   });

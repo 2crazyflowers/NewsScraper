@@ -44,6 +44,7 @@ module.exports = function (app) {
           })
           .catch(function (err) {
             // If an error occurred, send it to the client
+            console.log("you have a scrape error occuring in the fetch.js file: " + err);
             return res.json(err);
           });
       });

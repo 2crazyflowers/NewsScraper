@@ -1,4 +1,4 @@
-//this scrape is not working yet
+
 $("#scrape-articles").on("click", function(event) {
 
     $.ajax({
@@ -7,8 +7,10 @@ $("#scrape-articles").on("click", function(event) {
     })
     .then(function (data) {
       console.log(data);
+      //location.reload(); 
+      location.href = ('/');
     })
-    location.reload();
+    
   });
 
 // Whenever someone clicks a make a comment button
@@ -106,6 +108,25 @@ $("body").on("click", "#unsave-article", function (event) {
     })
     .catch(function (err) {
       console.log("Error in unsaving article app.js not working: " + err);
+    });
+});
+
+$("body").on("click", "#delete-article", function (event) {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+  console.log("article saved with this id: " + thisId);
+  // Run a DELETE request to remove article from database
+  $.ajax({
+    method: "DELETE",
+    url: "/deletearticles/" + thisId,
+  })
+    // With that done
+    .then(function (data) {
+      console.log("the article with this id: " + thisId + " was deleted from the database");
+      location.reload();
+    })
+    .catch(function (err) {
+      console.log("Error in article app.js not working: " + err);
     });
 });
 
